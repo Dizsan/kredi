@@ -1445,6 +1445,336 @@
             background: #10b981;
             box-shadow: 0 0 8px #10b981;
         }
+
+        /* ==================== IPHONE STYLE COLLAPSIBLE PAYMENT CALENDAR ==================== */
+        .ios-cal-wrapper {
+            background: linear-gradient(165deg, rgba(19, 25, 46, 0.88), rgba(11, 15, 29, 0.94));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 22px;
+            padding: 20px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .ios-cal-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .ios-cal-title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .ios-cal-month-label {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .ios-cal-month-label span.yr {
+            color: #ff453a;
+            font-weight: 700;
+        }
+        .ios-cal-summary-pills {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .ios-cal-pill {
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 5px 11px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+        }
+        .ios-cal-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .ios-cal-nav-btn {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            height: 36px;
+            padding: 0 12px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+        .ios-cal-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .ios-cal-collapse-btn {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+            height: 36px;
+            padding: 0 14px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+        .ios-cal-collapse-btn:hover {
+            background: rgba(245, 158, 11, 0.25);
+        }
+        /* Compact Strip (When Calendar is Minimized like iPhone Week/Payment Strip) */
+        .ios-cal-compact-strip {
+            display: none;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 6px 2px 10px 2px;
+        }
+        .ios-cal-wrapper.collapsed .ios-cal-compact-strip {
+            display: flex;
+        }
+        .ios-cal-wrapper.collapsed .ios-cal-full-grid-wrap {
+            display: none;
+        }
+        .ios-compact-day-chip {
+            min-width: 150px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .ios-compact-day-chip:hover,
+        .ios-compact-day-chip.selected {
+            background: rgba(245, 158, 11, 0.14);
+            border-color: #f59e0b;
+            transform: translateY(-2px);
+        }
+        /* Weekdays Header */
+        .ios-cal-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.6px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            margin-bottom: 8px;
+        }
+        /* 7-Column Days Grid */
+        .ios-cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 6px;
+        }
+        .ios-cal-cell {
+            min-height: 88px;
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .ios-cal-cell:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+        .ios-cal-cell.empty-cell {
+            background: transparent;
+            border-color: transparent;
+            cursor: default;
+            min-height: 40px;
+        }
+        .ios-cal-cell.has-payment {
+            background: rgba(245, 158, 11, 0.06);
+            border-color: rgba(245, 158, 11, 0.28);
+        }
+        .ios-cal-cell.has-payment.all-paid {
+            background: rgba(16, 185, 129, 0.06);
+            border-color: rgba(16, 185, 129, 0.28);
+        }
+        .ios-cal-cell.selected-day {
+            border: 2px solid #f59e0b !important;
+            background: rgba(245, 158, 11, 0.14) !important;
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.25);
+        }
+        .ios-cal-day-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+        .ios-cal-day-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .ios-cal-cell.is-today .ios-cal-day-num {
+            background: #ff453a;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(255, 69, 58, 0.45);
+        }
+        .ios-cal-cell.selected-day .ios-cal-day-num {
+            background: #f59e0b;
+            color: #090d16;
+            font-weight: 800;
+        }
+        .ios-cal-dots {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+        }
+        .ios-cal-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        .ios-cal-events-list {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            width: 100%;
+        }
+        .ios-cal-event-pill {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 5px;
+            border-radius: 6px;
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            flex-direction: column;
+        }
+        .ios-cal-event-pill.bank-is {
+            background: rgba(99, 102, 241, 0.22);
+            color: #c7d2fe;
+            border-left: 2.5px solid #6366f1;
+        }
+        .ios-cal-event-pill.bank-ziraat {
+            background: rgba(16, 185, 129, 0.22);
+            color: #a7f3d0;
+            border-left: 2.5px solid #10b981;
+        }
+        .ios-cal-event-pill.bank-zoto {
+            background: rgba(14, 165, 233, 0.22);
+            color: #bae6fd;
+            border-left: 2.5px solid #0ea5e9;
+        }
+        .ios-cal-event-pill.bank-vakif {
+            background: rgba(245, 158, 11, 0.22);
+            color: #fde68a;
+            border-left: 2.5px solid #f59e0b;
+        }
+        .ios-cal-event-pill.bank-custom {
+            background: rgba(236, 72, 153, 0.22);
+            color: #fbcfe8;
+            border-left: 2.5px solid #ec4899;
+        }
+        .ios-cal-event-pill.is-paid-pill {
+            opacity: 0.65;
+            text-decoration: line-through;
+        }
+        /* Selected Day Expandable Agenda Drawer (iPhone Bottom Detail View) */
+        .ios-cal-day-drawer {
+            margin-top: 14px;
+            background: rgba(9, 13, 25, 0.85);
+            border: 1.5px solid rgba(245, 158, 11, 0.35);
+            border-radius: 16px;
+            padding: 16px;
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+        .ios-cal-day-drawer.open {
+            display: block;
+        }
+        .ios-drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 12px;
+        }
+        .ios-drawer-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            margin-bottom: 8px;
+        }
+        .ios-drawer-item:last-child {
+            margin-bottom: 0;
+        }
+        @media (max-width: 768px) {
+            .ios-cal-wrapper {
+                padding: 14px 10px;
+            }
+            .ios-cal-grid {
+                gap: 4px;
+            }
+            .ios-cal-cell {
+                min-height: 66px;
+                padding: 4px 3px;
+                border-radius: 10px;
+            }
+            .ios-cal-day-num {
+                width: 22px;
+                height: 22px;
+                font-size: 11.5px;
+            }
+            .ios-cal-event-pill {
+                font-size: 8.5px;
+                padding: 2px 3px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1517,6 +1847,56 @@
             <!-- Cards Grid (Populated dynamically to include custom loans) -->
             <div class="stats-grid" id="combined-stats-grid">
                 <!-- Populated dynamically -->
+            </div>
+
+            <!-- ==================== IPHONE TARZI KREDİ ÖDEME TAKVİMİ (KÜÇÜLTÜLEBİLİR & GÜNE DOKUNUNCA AÇILIR) ==================== -->
+            <div class="ios-cal-wrapper" id="ios-payment-calendar">
+                <div class="ios-cal-top">
+                    <div class="ios-cal-title-group">
+                        <div class="ios-cal-month-label" onclick="toggleIosCalendarCollapse()" title="Küçültmek / Büyütmek için dokunun">
+                            <span>📅</span>
+                            <span id="ios-cal-month-text">Ekim</span>
+                            <span class="yr" id="ios-cal-year-text">2026</span>
+                        </div>
+                        <div class="ios-cal-summary-pills" id="ios-cal-month-pills">
+                            <!-- Filled dynamically -->
+                        </div>
+                    </div>
+                    <div class="ios-cal-controls">
+                        <button type="button" class="ios-cal-nav-btn" onclick="changeIosCalendarMonth(-1)" title="Önceki Ay">◀ Önceki</button>
+                        <button type="button" class="ios-cal-nav-btn" onclick="goToIosCalendarToday()" style="color: #ff453a;">Bugün</button>
+                        <button type="button" class="ios-cal-nav-btn" onclick="changeIosCalendarMonth(1)" title="Sonraki Ay">Sonraki ▶</button>
+                        <button type="button" class="ios-cal-collapse-btn" id="ios-cal-toggle-btn" onclick="toggleIosCalendarCollapse()">
+                            🔼 Küçült
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Küçültülmüş Şerit Görünümü (iPhone Kompakt Mod) -->
+                <div class="ios-cal-compact-strip" id="ios-cal-compact-strip">
+                    <!-- Populated dynamically with this month's payment days -->
+                </div>
+
+                <!-- Tam Aylık Takvim Grid Görünümü -->
+                <div class="ios-cal-full-grid-wrap" id="ios-cal-full-grid-wrap">
+                    <div class="ios-cal-weekdays">
+                        <div>Pzt</div>
+                        <div>Sal</div>
+                        <div>Çar</div>
+                        <div>Per</div>
+                        <div>Cum</div>
+                        <div>Cmt</div>
+                        <div>Paz</div>
+                    </div>
+                    <div class="ios-cal-grid" id="ios-cal-days-grid">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Tarihe Dokununca Açılan Günlük Ödeme Detay Çekmecesi (iPhone Ajanda Görünümü) -->
+                <div class="ios-cal-day-drawer" id="ios-cal-day-drawer">
+                    <!-- Populated when a date is tapped -->
+                </div>
             </div>
 
             <!-- Content Layout: Left Table Timeline, Right Charts Summary -->
@@ -2643,12 +3023,12 @@
             if ('caches' in window) {
                 caches.keys().then(keys => {
                     keys.forEach(k => {
-                        if (k !== 'dizsan-kredi-v2.0.0') caches.delete(k);
+                        if (k !== 'dizsan-kredi-v2.2.0') caches.delete(k);
                     });
                 });
             }
             if ('serviceWorker' in navigator && window.self === window.top) {
-                navigator.serviceWorker.register('sw.js?v=2.0.0').then(reg => reg.update()).catch(() => {});
+                navigator.serviceWorker.register('sw.js?v=2.2.0').then(reg => reg.update()).catch(() => {});
             }
 
             loadState();
@@ -3022,9 +3402,343 @@
                 });
             }
 
+            // Render iPhone-Style Collapsible Payment Calendar
+            renderIosPaymentCalendar();
+
             // Render Charts
             renderShareChart(totalPaidDebt, totalRemainingDebt);
             renderTimelineBarChart();
+        }
+
+        // ==================== IPHONE STYLE COLLAPSIBLE & EXPANDABLE CALENDAR LOGIC ====================
+        let iosCalYear = new Date().getFullYear();
+        let iosCalMonth = new Date().getMonth(); // 0-indexed (0 = Ocak, 9 = Ekim)
+        let iosCalSelectedDateStr = null; // Format: 'DD.MM.YYYY'
+        let iosCalCollapsed = false;
+
+        const TR_MONTH_NAMES = [
+            'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+            'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+        ];
+        const TR_WEEKDAY_FULL = [
+            'Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'
+        ];
+
+        function getBankDisplayMeta(bankKey, loanObj) {
+            const fullName = (loanObj && loanObj.name) ? loanObj.name : (
+                bankKey === 'is_bankasi' ? 'İş Bankası' :
+                bankKey === 'ziraat_bankasi' ? 'Ziraat Bankası' :
+                bankKey === 'ziraat_otomotiv_2' ? 'Ziraat Otomotiv -2-' :
+                bankKey === 'vakifbank_otomotiv' ? 'Vakıfbank Otomotiv' : bankKey
+            );
+            let shortName = fullName;
+            let pillClass = 'bank-custom';
+            let dotColor = '#ec4899';
+
+            if (bankKey === 'is_bankasi') {
+                shortName = 'İş Bankası';
+                pillClass = 'bank-is';
+                dotColor = '#6366f1';
+            } else if (bankKey === 'ziraat_bankasi') {
+                shortName = 'Ziraat B.';
+                pillClass = 'bank-ziraat';
+                dotColor = '#10b981';
+            } else if (bankKey === 'ziraat_otomotiv_2') {
+                shortName = 'Ziraat Oto-2';
+                pillClass = 'bank-zoto';
+                dotColor = '#0ea5e9';
+            } else if (bankKey === 'vakifbank_otomotiv') {
+                shortName = 'Vakıfbank';
+                pillClass = 'bank-vakif';
+                dotColor = '#f59e0b';
+            } else if (fullName.length > 12) {
+                shortName = fullName.substring(0, 11) + '.';
+            }
+            return { fullName, shortName, pillClass, dotColor };
+        }
+
+        function collectPaymentsByDateMap() {
+            const allLoans = getAllLoans();
+            const map = {};
+            for (const [bankKey, loan] of Object.entries(allLoans)) {
+                if (!userState[bankKey]) userState[bankKey] = {};
+                const meta = getBankDisplayMeta(bankKey, loan);
+                (loan.installments || []).forEach(inst => {
+                    const parts = (inst.vade || '').split('.');
+                    if (parts.length !== 3) return;
+                    const dd = String(parseInt(parts[0], 10)).padStart(2, '0');
+                    const mm = String(parseInt(parts[1], 10)).padStart(2, '0');
+                    const yyyy = parts[2];
+                    const normKey = `${dd}.${mm}.${yyyy}`;
+                    const state = userState[bankKey][inst.taksit_no] || { is_paid: false };
+                    const pData = getParsedData(inst, bankKey);
+
+                    if (!map[normKey]) map[normKey] = [];
+                    map[normKey].push({
+                        bankKey,
+                        fullName: meta.fullName,
+                        shortName: meta.shortName,
+                        pillClass: meta.pillClass,
+                        dotColor: meta.dotColor,
+                        taksit_no: inst.taksit_no,
+                        total_count: loan.installments.length,
+                        vade: normKey,
+                        amount: pData.taksit_tutari,
+                        anapara: pData.anapara,
+                        faiz: pData.faiz + (pData.fon_kkdf || 0) + (pData.vergi_bsmv || 0),
+                        is_paid: !!state.is_paid,
+                        source: state.source || '',
+                        notes: state.notes || ''
+                    });
+                });
+            }
+            return map;
+        }
+
+        function toggleIosCalendarCollapse() {
+            iosCalCollapsed = !iosCalCollapsed;
+            const wrapper = document.getElementById('ios-payment-calendar');
+            const btn = document.getElementById('ios-cal-toggle-btn');
+            if (wrapper) {
+                wrapper.classList.toggle('collapsed', iosCalCollapsed);
+            }
+            if (btn) {
+                btn.innerHTML = iosCalCollapsed ? '🔽 Takvimi Aç' : '🔼 Küçült';
+            }
+        }
+
+        function changeIosCalendarMonth(delta) {
+            iosCalMonth += delta;
+            if (iosCalMonth < 0) {
+                iosCalMonth = 11;
+                iosCalYear--;
+            } else if (iosCalMonth > 11) {
+                iosCalMonth = 0;
+                iosCalYear++;
+            }
+            iosCalSelectedDateStr = null;
+            renderIosPaymentCalendar();
+        }
+
+        function goToIosCalendarToday() {
+            const now = new Date();
+            iosCalYear = now.getFullYear();
+            iosCalMonth = now.getMonth();
+            const dd = String(now.getDate()).padStart(2, '0');
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            iosCalSelectedDateStr = `${dd}.${mm}.${iosCalYear}`;
+            renderIosPaymentCalendar();
+        }
+
+        function selectIosCalendarDate(dateStr) {
+            if (iosCalSelectedDateStr === dateStr) {
+                // Tapping the same date again toggles the detail drawer closed
+                iosCalSelectedDateStr = null;
+            } else {
+                iosCalSelectedDateStr = dateStr;
+            }
+            renderIosPaymentCalendar();
+            if (iosCalSelectedDateStr) {
+                const drawer = document.getElementById('ios-cal-day-drawer');
+                if (drawer) {
+                    drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+        }
+
+        function renderIosPaymentCalendar() {
+            const monthEl = document.getElementById('ios-cal-month-text');
+            const yearEl = document.getElementById('ios-cal-year-text');
+            const pillsEl = document.getElementById('ios-cal-month-pills');
+            const gridEl = document.getElementById('ios-cal-days-grid');
+            const compactEl = document.getElementById('ios-cal-compact-strip');
+            const drawerEl = document.getElementById('ios-cal-day-drawer');
+            if (!gridEl || !monthEl || !yearEl) return;
+
+            monthEl.innerText = TR_MONTH_NAMES[iosCalMonth];
+            yearEl.innerText = iosCalYear;
+
+            const paymentMap = collectPaymentsByDateMap();
+            const daysInMonth = new Date(iosCalYear, iosCalMonth + 1, 0).getDate();
+            // Monday-based index (0 = Pzt ... 6 = Paz)
+            const firstDayRaw = new Date(iosCalYear, iosCalMonth, 1).getDay();
+            const startOffset = (firstDayRaw + 6) % 7;
+
+            const now = new Date();
+            const todayStr = `${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}.${now.getFullYear()}`;
+            const mmStr = String(iosCalMonth + 1).padStart(2, '0');
+
+            // Calculate monthly totals & collect payment days for this month
+            let monthTotalAmount = 0;
+            let monthPaidAmount = 0;
+            let monthRemainingAmount = 0;
+            const monthPaymentDates = [];
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const ddStr = String(d).padStart(2, '0');
+                const dKey = `${ddStr}.${mmStr}.${iosCalYear}`;
+                const evs = paymentMap[dKey] || [];
+                if (evs.length > 0) {
+                    monthPaymentDates.push({ day: d, dateStr: dKey, events: evs });
+                    evs.forEach(ev => {
+                        monthTotalAmount += ev.amount;
+                        if (ev.is_paid) monthPaidAmount += ev.amount;
+                        else monthRemainingAmount += ev.amount;
+                    });
+                }
+            }
+
+            // Summary Pills in Calendar Header
+            if (pillsEl) {
+                pillsEl.innerHTML = `
+                    <span class="ios-cal-pill">Bu Ay Toplam: <strong style="color:#fff;">${formatTRY(monthTotalAmount)}</strong></span>
+                    <span class="ios-cal-pill" style="color:#6ee7b7; border-color:rgba(16,185,129,0.3);">Ödenen: <strong>${formatTRY(monthPaidAmount)}</strong></span>
+                    <span class="ios-cal-pill" style="color:#fbbf24; border-color:rgba(245,158,11,0.3);">Kalan: <strong>${formatTRY(monthRemainingAmount)}</strong></span>
+                `;
+            }
+
+            // Populate Compact Strip (Visible when minimized)
+            if (compactEl) {
+                if (monthPaymentDates.length === 0) {
+                    compactEl.innerHTML = `<div style="color:var(--text-muted); font-size:12.5px; padding:6px;">Bu ayda planlanmış kredi taksiti bulunmuyor.</div>`;
+                } else {
+                    compactEl.innerHTML = monthPaymentDates.map(pd => {
+                        const isSel = iosCalSelectedDateStr === pd.dateStr;
+                        const daySum = pd.events.reduce((s, e) => s + e.amount, 0);
+                        const allPaid = pd.events.every(e => e.is_paid);
+                        const bankNames = pd.events.map(e => `${e.is_paid ? '✓ ' : ''}${e.shortName}: ${formatCompactTRY(e.amount)}`).join('<br>');
+                        return `
+                            <div class="ios-compact-day-chip ${isSel ? 'selected' : ''}" onclick="selectIosCalendarDate('${pd.dateStr}')">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                                    <span style="font-family:var(--font-display); font-weight:800; font-size:13px; color:#fff;">${pd.day} ${TR_MONTH_NAMES[iosCalMonth]}</span>
+                                    <span style="font-size:10px; padding:2px 6px; border-radius:10px; background:${allPaid ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)'}; color:${allPaid ? '#34d399' : '#fbbf24'}; font-weight:700;">
+                                        ${allPaid ? 'Ödendi' : 'Bekliyor'}
+                                    </span>
+                                </div>
+                                <div style="font-size:11px; color:var(--text-main); line-height:1.35; margin-bottom:4px;">${bankNames}</div>
+                                <div style="font-size:12px; font-weight:800; color:var(--accent-gold);">${formatTRY(daySum)}</div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            }
+
+            // Populate Full 7-Column Calendar Grid
+            let cellsHtml = '';
+            for (let i = 0; i < startOffset; i++) {
+                cellsHtml += `<div class="ios-cal-cell empty-cell"></div>`;
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const ddStr = String(d).padStart(2, '0');
+                const dKey = `${ddStr}.${mmStr}.${iosCalYear}`;
+                const evs = paymentMap[dKey] || [];
+                const isToday = dKey === todayStr;
+                const isSelected = dKey === iosCalSelectedDateStr;
+                const hasPay = evs.length > 0;
+                const allPaid = hasPay && evs.every(e => e.is_paid);
+
+                let cellClasses = 'ios-cal-cell';
+                if (isToday) cellClasses += ' is-today';
+                if (isSelected) cellClasses += ' selected-day';
+                if (hasPay) cellClasses += ' has-payment';
+                if (allPaid) cellClasses += ' all-paid';
+
+                const dotsHtml = evs.map(e => `<span class="ios-cal-dot" style="background:${e.dotColor};"></span>`).join('');
+                const pillsHtml = evs.map(e => `
+                    <div class="ios-cal-event-pill ${e.pillClass} ${e.is_paid ? 'is-paid-pill' : ''}" title="${e.fullName} - ${formatTRY(e.amount)}">
+                        <span>${e.is_paid ? '✓ ' : ''}${e.shortName}</span>
+                        <span style="font-weight:800; color:#fff;">${ Math.round(e.amount).toLocaleString('tr-TR') } ₺</span>
+                    </div>
+                `).join('');
+
+                cellsHtml += `
+                    <div class="${cellClasses}" onclick="selectIosCalendarDate('${dKey}')">
+                        <div class="ios-cal-day-top">
+                            <span class="ios-cal-day-num">${d}</span>
+                            <div class="ios-cal-dots">${dotsHtml}</div>
+                        </div>
+                        <div class="ios-cal-events-list">
+                            ${pillsHtml}
+                        </div>
+                    </div>
+                `;
+            }
+            gridEl.innerHTML = cellsHtml;
+
+            // Populate Expandable Day Detail Drawer when a date is tapped
+            if (drawerEl) {
+                if (!iosCalSelectedDateStr) {
+                    drawerEl.classList.remove('open');
+                    drawerEl.innerHTML = '';
+                } else {
+                    const selEvents = paymentMap[iosCalSelectedDateStr] || [];
+                    const [sD, sM, sY] = iosCalSelectedDateStr.split('.');
+                    const selDateObj = new Date(parseInt(sY, 10), parseInt(sM, 10) - 1, parseInt(sD, 10));
+                    const weekdayName = TR_WEEKDAY_FULL[selDateObj.getDay()];
+                    const prettyDate = `${parseInt(sD, 10)} ${TR_MONTH_NAMES[parseInt(sM, 10) - 1]} ${sY} ${weekdayName}`;
+                    const dayTotal = selEvents.reduce((acc, item) => acc + item.amount, 0);
+
+                    let itemsHtml = '';
+                    if (selEvents.length === 0) {
+                        itemsHtml = `
+                            <div style="padding: 14px; text-align: center; color: var(--text-muted); font-size: 13px;">
+                                📅 <strong>${prettyDate}</strong> tarihinde planlanmış herhangi bir banka kredi ödemesi bulunmamaktadır.
+                            </div>
+                        `;
+                    } else {
+                        itemsHtml = selEvents.map(ev => `
+                            <div class="ios-drawer-item" style="border-left: 4px solid ${ev.dotColor};">
+                                <div style="display:flex; flex-direction:column; gap:4px;">
+                                    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                        <span style="font-family:var(--font-display); font-size:15px; font-weight:800; color:#ffffff;">${ev.fullName}</span>
+                                        <span style="font-size:11px; padding:2px 8px; border-radius:6px; background:rgba(255,255,255,0.07); color:var(--text-main); font-weight:700;">
+                                            Taksit #${ev.taksit_no} / ${ev.total_count}
+                                        </span>
+                                        <span style="font-size:11px; padding:2px 8px; border-radius:6px; font-weight:800; background:${ev.is_paid ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)'}; color:${ev.is_paid ? '#34d399' : '#fbbf24'};">
+                                            ${ev.is_paid ? '✅ ÖDENDİ' : '⏳ ÖDEME BEKLİYOR'}
+                                        </span>
+                                    </div>
+                                    <div style="font-size:12px; color:var(--text-muted);">
+                                        Anapara: <strong style="color:var(--text-main);">${formatTRY(ev.anapara)}</strong> &nbsp;•&nbsp;
+                                        Faiz &amp; Vergi: <strong style="color:var(--accent-gold);">${formatTRY(ev.faiz)}</strong>
+                                        ${ev.source ? ` &nbsp;•&nbsp; Kaynak: <strong style="color:#6ee7b7;">${ev.source}</strong>` : ''}
+                                    </div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                                    <div style="font-family:var(--font-display); font-size:18px; font-weight:800; color:var(--accent-gold);">
+                                        ${formatTRY(ev.amount)}
+                                    </div>
+                                    <button type="button" onclick="openLoggerModal('${ev.bankKey}', ${ev.taksit_no})" style="background:${ev.is_paid ? 'rgba(255,255,255,0.08)' : 'linear-gradient(135deg, #10b981, #059669)'}; color:#ffffff; border:1px solid rgba(255,255,255,0.15); padding:8px 13px; border-radius:10px; font-size:12px; font-weight:800; cursor:pointer;">
+                                        ${ev.is_paid ? '✏️ Ödemeyi Düzenle' : '☑️ Ödendi İşaretle'}
+                                    </button>
+                                    <button type="button" onclick="openLoanTabDirectly('${ev.bankKey}')" style="background:rgba(99,102,241,0.18); color:#a5b4fc; border:1px solid rgba(99,102,241,0.35); padding:8px 11px; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer;">
+                                        Tabloya Git ➔
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+
+                    drawerEl.innerHTML = `
+                        <div class="ios-drawer-header">
+                            <div>
+                                <div style="font-family:var(--font-display); font-size:16px; font-weight:800; color:#ffffff;">
+                                    📌 ${prettyDate}
+                                </div>
+                                <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
+                                    ${selEvents.length > 0 ? `Bu tarihte toplam <strong>${selEvents.length} adet</strong> kredi ödemesi (${formatTRY(dayTotal)}) bulunuyor.` : 'Bu tarihte kredi ödemesi yok.'}
+                                </div>
+                            </div>
+                            <button type="button" onclick="selectIosCalendarDate('${iosCalSelectedDateStr}')" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:var(--text-main); padding:6px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">
+                                ✕ Detayı Kapat
+                            </button>
+                        </div>
+                        ${itemsHtml}
+                    `;
+                    drawerEl.classList.add('open');
+                }
+            }
         }
 
         // Direct tab opening when clicking summary cards
