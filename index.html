@@ -1461,6 +1461,9 @@
             </div>
         </div>
         <div class="header-actions-wrap">
+            <button type="button" onclick="manualSaveAndSync()" style="background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; border: none; padding: 8px 14px; border-radius: 30px; font-size: 12.5px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);">
+                💾 Kaydet &amp; Eşitle
+            </button>
             <button type="button" class="sync-pill-btn" onclick="pullFromCloud(true)" title="GitHub ile Şimdi Eşitle">
                 <span class="sync-dot" id="header-sync-dot"></span>
                 <span id="header-sync-label">GitHub Canlı Senkron</span>
@@ -1471,6 +1474,9 @@
             <div class="system-date" id="nav-date-box">
                 Tarih: <span id="current-date-span">17.10.2026</span>
             </div>
+        </div>
+        <div id="save-toast-banner" style="display: none; position: fixed; top: 18px; right: 18px; z-index: 9999; background: linear-gradient(135deg, #059669, #10b981); color: #ffffff; padding: 12px 18px; border-radius: 12px; font-size: 13px; font-weight: 700; box-shadow: 0 10px 25px rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.25);">
+            ✅ Kaydedildi ve tüm cihazlarla eşitlendi!
         </div>
     </header>
 
@@ -2105,8 +2111,30 @@
             saveState();
         }
 
+        let saveToastTimer = null;
+        function showSaveToast(msg) {
+            const toast = document.getElementById('save-toast-banner');
+            if (!toast) return;
+            toast.innerText = msg || '✅ Kaydedildi ve tüm cihazlarla eşitlendi!';
+            toast.style.display = 'block';
+            if (saveToastTimer) clearTimeout(saveToastTimer);
+            saveToastTimer = setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2800);
+        }
+
+        function manualSaveAndSync() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(userState));
+            localStorage.setItem(CUSTOM_LOANS_KEY, JSON.stringify(customLoans));
+            showSaveToast('💾 Kaydediliyor ve tüm cihazlarla eşitleniyor...');
+            pushToCloud().then(() => {
+                showSaveToast('✅ Tüm ödemeler kaydedildi ve PC / Mobil eşitlendi!');
+            });
+        }
+
         function saveState() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(userState));
+            showSaveToast('✅ Otomatik kaydedildi ve eşitleniyor...');
             if (typeof isAutoSyncEnabled === 'function' && isAutoSyncEnabled()) {
                 pushToCloud();
             }
@@ -2114,6 +2142,7 @@
 
         function saveCustomLoans() {
             localStorage.setItem(CUSTOM_LOANS_KEY, JSON.stringify(customLoans));
+            showSaveToast('✅ Otomatik kaydedildi ve eşitleniyor...');
             if (typeof isAutoSyncEnabled === 'function' && isAutoSyncEnabled()) {
                 pushToCloud();
             }
@@ -3484,6 +3513,15 @@
         function toggleInstallment(bankKey, taksitNo, isChecked) {
             if (!userState[bankKey]) userState[bankKey] = {};
             if (isChecked) {
+                if (!userState[bankKey][taksitNo] || !userState[bankKey][taksitNo].is_paid) {
+                    userState[bankKey][taksitNo] = {
+                        is_paid: true,
+                        payment_date: new Date().toISOString().split('T')[0],
+                        source: 'Merkez Kasa',
+                        notes: ''
+                    };
+                    saveState();
+                }
                 openLoggerModal(bankKey, taksitNo);
             } else {
                 const current = userState[bankKey][taksitNo];
