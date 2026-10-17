@@ -1878,25 +1878,32 @@
                 </button>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;">
-                <button type="button" onclick="triggerNativeOrProfileInstall()" style="width: 100%; background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; border: none; padding: 12px 16px; border-radius: 12px; font-size: 13.5px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);">
-                    📲 Telefona Direkt Kur / Yükle (Tek Dokunuş)
+                <button type="button" id="btn-modal-direct-install" onclick="triggerNativeOrProfileInstall()" style="width: 100%; background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; border: none; padding: 13px 16px; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);">
+                    📲 Uygulamayı Şimdi Yükle (Tek Dokunuş)
                 </button>
-                <a href="dizsan-kredi.mobileconfig" download="dizsan-kredi.mobileconfig" style="width: 100%; background: rgba(245, 158, 11, 0.16); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.45); padding: 11px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; text-decoration: none; display: block;">
+                <a id="ios-profile-download-btn" href="dizsan-kredi.mobileconfig" download="dizsan-kredi.mobileconfig" style="display: none; width: 100%; background: rgba(245, 158, 11, 0.16); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.45); padding: 11px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; text-decoration: none;">
                     🍎 iPhone / iPad Ana Ekrana Direkt Kurulum Paketi İndir
                 </a>
             </div>
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
-                Bilgisayardaysanız telefonunuzun kamerasıyla aşağıdaki karekodu okutarak doğrudan telefona yükleyebilirsiniz:
-            </p>
-            <div style="background: #ffffff; padding: 14px; border-radius: 16px; display: inline-block; margin-bottom: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);">
-                <img id="install-qr-img" src="kredi_qr.png" alt="Kredi Takip Mobil QR" style="width: 200px; height: 200px; display: block;" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&data=' + encodeURIComponent('https://dizsan.github.io/kredi/')">
+            <div id="android-install-guide-box" style="text-align: left; font-size: 12.5px; color: var(--text-main); background: rgba(16, 185, 129, 0.08); border: 1.5px solid rgba(16, 185, 129, 0.35); border-radius: 12px; padding: 13px; margin-bottom: 14px; line-height: 1.65;">
+                <div style="font-weight: 800; color: #34d399; font-size: 13.5px; margin-bottom: 6px;">🤖 Android (Samsung / Chrome) Kurulumu:</div>
+                <div>1. Yukarıdaki yeşil <strong>"📲 Uygulamayı Şimdi Yükle"</strong> butonuna dokunun.</div>
+                <div>2. Eğer karekod okuyucu içindeyseniz ekranın sağ üst köşesindeki <strong>⋮ (Üç Nokta)</strong> simgesine dokunup <strong>"Uygulamayı yükle"</strong> veya <strong>"Ana ekrana ekle"</strong> seçeneğine basın.</div>
+            </div>
+            <div id="ios-install-guide-box" style="text-align: left; font-size: 12.5px; color: var(--text-main); background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 13px; margin-bottom: 14px; line-height: 1.6;">
+                <div style="font-weight: 800; color: var(--accent-gold); margin-bottom: 4px;">🍎 iPhone / iPad (Safari) Kurulumu:</div>
+                <div>Alt bardaki <strong>Paylaş (⬆️)</strong> simgesinden <strong>"Ana Ekrana Ekle"</strong> seçin.</div>
+            </div>
+            <div id="desktop-qr-guide-box">
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
+                    Bilgisayardaysanız telefonunuzun kamerasıyla aşağıdaki karekodu okutun:
+                </p>
+                <div style="background: #ffffff; padding: 14px; border-radius: 16px; display: inline-block; margin-bottom: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);">
+                    <img id="install-qr-img" src="kredi_qr.png" alt="Kredi Takip Mobil QR" style="width: 190px; height: 190px; display: block;" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=220x220&margin=8&data=' + encodeURIComponent('https://dizsan.github.io/kredi/')">
+                </div>
             </div>
             <div style="font-size: 11px; font-family: monospace; color: var(--accent-gold); background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); padding: 8px 10px; border-radius: 8px; margin-bottom: 14px; word-break: break-all;">
                 https://dizsan.github.io/kredi/
-            </div>
-            <div style="text-align: left; font-size: 12px; color: var(--text-main); background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; margin-bottom: 16px; line-height: 1.6;">
-                <div><strong style="color: var(--accent-gold);">iPhone (Safari):</strong> Yukarıdaki <strong>iPhone Direkt Kurulum Paketi</strong> butonuna basın veya alt bardaki <strong>Paylaş</strong> simgesinden <strong>"Ana Ekrana Ekle"</strong> seçin.</div>
-                <div style="margin-top: 6px;"><strong style="color: #34d399;">Android (Chrome):</strong> Yukarıdaki yeşil <strong>Telefona Direkt Kur / Yükle</strong> butonuna basın.</div>
             </div>
             <button class="btn btn-save btn-full" onclick="closeMobileInstallModal()">Kapat</button>
         </div>
@@ -2466,6 +2473,14 @@
             closeMobileInstallModal();
         });
 
+        function isIOSDevice() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        }
+
+        function isAndroidDevice() {
+            return /Android/i.test(navigator.userAgent);
+        }
+
         function triggerDirectPhoneInstall() {
             if (deferredInstallPrompt) {
                 deferredInstallPrompt.prompt();
@@ -2474,27 +2489,54 @@
                 });
                 return;
             }
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-            if (isIOS) {
-                window.location.href = 'dizsan-kredi.mobileconfig';
-                setTimeout(() => openMobileInstallModal(), 600);
-                return;
-            }
             openMobileInstallModal();
         }
 
         function triggerNativeOrProfileInstall() {
             if (deferredInstallPrompt) {
                 deferredInstallPrompt.prompt();
-                deferredInstallPrompt.userChoice.then(() => {
+                deferredInstallPrompt.userChoice.then((choice) => {
+                    if (choice && choice.outcome === 'accepted') {
+                        closeMobileInstallModal();
+                    }
                     deferredInstallPrompt = null;
                 });
                 return;
             }
-            window.location.href = 'dizsan-kredi.mobileconfig';
+            if (isIOSDevice()) {
+                window.location.href = 'dizsan-kredi.mobileconfig';
+                return;
+            }
+            if (isAndroidDevice()) {
+                alert('📲 Kurulum İçin:\n\nEkranın sağ üst köşesindeki ⋮ (Üç Nokta) simgesine dokunun ve açılan menüden "Uygulamayı yükle" veya "Ana ekrana ekle" seçeneğine basın.');
+                return;
+            }
+            alert('Telefonunuzun kamerasıyla ekrandaki karekodu okutarak kurabilirsiniz.');
         }
 
         function openMobileInstallModal() {
+            const iosBtn = document.getElementById('ios-profile-download-btn');
+            const iosBox = document.getElementById('ios-install-guide-box');
+            const androidBox = document.getElementById('android-install-guide-box');
+            const qrBox = document.getElementById('desktop-qr-guide-box');
+
+            if (isIOSDevice()) {
+                if (iosBtn) iosBtn.style.display = 'block';
+                if (iosBox) iosBox.style.display = 'block';
+                if (androidBox) androidBox.style.display = 'none';
+                if (qrBox) qrBox.style.display = 'none';
+            } else if (isAndroidDevice()) {
+                if (iosBtn) iosBtn.style.display = 'none';
+                if (iosBox) iosBox.style.display = 'none';
+                if (androidBox) androidBox.style.display = 'block';
+                if (qrBox) qrBox.style.display = 'none';
+            } else {
+                if (iosBtn) iosBtn.style.display = 'none';
+                if (iosBox) iosBox.style.display = 'block';
+                if (androidBox) androidBox.style.display = 'block';
+                if (qrBox) qrBox.style.display = 'block';
+            }
+
             const modal = document.getElementById('modal-mobile-install');
             if (modal) modal.classList.add('active');
         }
