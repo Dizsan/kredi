@@ -3848,7 +3848,7 @@
             monthsOrder.sort();
 
             // Take the next 12 calendar months to show progression nicely
-            const activeMonths = monthsOrder.filter(m => m >= '2026-05').slice(0, 12);
+            const nowYm = new Date().toISOString().slice(0, 7); const activeMonths = monthsOrder.filter(m => m >= nowYm).slice(0, 12);
             const labels = [];
             activeMonths.forEach(month => { labels.push(monthlyData[month].label); });
 
@@ -4761,7 +4761,7 @@
                 const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupPayload, null, 2));
                 const dlAnchorElem = document.createElement('a');
                 
-                const dateStr = "2026-05-29";
+                const dateStr = new Date().toISOString().split("T")[0];
                 dlAnchorElem.setAttribute("href",     dataStr     );
                 dlAnchorElem.setAttribute("download", `Dizsan_Kredi_Yedek_${dateStr}.json`);
                 dlAnchorElem.click();
