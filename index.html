@@ -2596,6 +2596,10 @@
                 if (banner) banner.style.display = 'none';
                 const headerBtn = document.getElementById('header-install-btn');
                 if (headerBtn) headerBtn.style.display = 'none';
+            } else if (window.location.search.includes('autoinstall=1') || window.location.pathname.includes('mobil.html')) {
+                setTimeout(() => {
+                    openMobileInstallModal();
+                }, 350);
             }
 
             // Update header live date in GG.AA.YYYY format

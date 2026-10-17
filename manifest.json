@@ -3,7 +3,7 @@
   "name": "Dizsan Kredi Ödemeleri Takip",
   "short_name": "Dizsan Kredi",
   "description": "Dizsan Banka Kredileri, Taksit, Faiz-Anapara Ayrımı, Erken Kapama ve Canlı GitHub Senkronizasyon Uygulaması",
-  "start_url": "./mobil.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "display_override": [
