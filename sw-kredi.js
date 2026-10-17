@@ -1,10 +1,11 @@
-// DİZSAN Kredi Ödemeleri Takip - Bağımsız Service Worker (v1.0.1)
-const CACHE_NAME = "dizsan-kredi-v1.0.1";
+// DİZSAN Kredi Ödemeleri Takip - Bağımsız Service Worker (v2.0.0)
+const CACHE_NAME = "dizsan-kredi-v2.0.0";
 const ASSETS = [
   "./",
   "./index.html",
+  "./mobil.html",
   "./kredi-takip.html",
-  "./manifest-kredi.json",
+  "./manifest.json",
   "./icon-192.png",
   "./icon-512.png",
   "./apple-touch-icon.png",

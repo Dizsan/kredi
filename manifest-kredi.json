@@ -1,9 +1,9 @@
 {
+  "id": "./",
   "name": "Dizsan Kredi Ödemeleri Takip",
   "short_name": "Dizsan Kredi",
   "description": "Dizsan Banka Kredileri, Taksit, Faiz-Anapara Ayrımı, Erken Kapama ve Canlı GitHub Senkronizasyon Uygulaması",
-  "id": "dizsan_kredi_pwa_app",
-  "start_url": "./",
+  "start_url": "./mobil.html",
   "scope": "./",
   "display": "standalone",
   "display_override": [
@@ -13,6 +13,7 @@
   "orientation": "any",
   "background_color": "#070a13",
   "theme_color": "#070a13",
+  "lang": "tr-TR",
   "categories": [
     "finance",
     "business",
