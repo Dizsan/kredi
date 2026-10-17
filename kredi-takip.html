@@ -1782,12 +1782,15 @@
     <!-- Header Section -->
     <header>
         <div class="brand-container">
+            <button type="button" id="kredi-internal-back-btn" onclick="handleKrediInternalBack()" title="Önceki Ekrana Geri Dön" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #ffffff; padding: 8px 13px; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; margin-right: 6px; transition: all 0.2s ease;">
+                ⬅️ Geri
+            </button>
             <div class="brand-logo-container">
                 <img class="brand-logo-img" src="Dizsan Logo.JPG" alt="Dizsan Logo">
             </div>
             <div class="brand-title-box">
                 <h1>Dizsan Kredi Ödemeleri Takip</h1>
-                <p>İş Bankası, Ziraat Bankası & Çoklu Kredi Yönetim Portalı (v2.1 Canlı GitHub Senkron)</p>
+                <p>İş Bankası, Ziraat Bankası & Çoklu Kredi Yönetim Portalı (v2.3 Canlı GitHub Senkron)</p>
             </div>
         </div>
         <div class="header-actions-wrap">
@@ -2090,6 +2093,10 @@
                             <div class="sim-res-row highlighted">
                                 <span class="lbl">Net Tahmini Tasarruf</span>
                                 <span class="val" id="sim-res-net-savings">0.00 TRY</span>
+                            </div>
+                            <div class="sim-res-row" style="margin-top: 8px; padding-top: 10px; border-top: 1px dashed rgba(16,185,129,0.35);">
+                                <span class="lbl" style="font-weight: 800; color: #34d399;">Erken Kapatmada Ödenecek Toplam</span>
+                                <span class="val" id="sim-res-total-payoff" style="font-weight: 800; font-size: 1.15rem; color: #34d399;">0.00 TRY</span>
                             </div>
                         </div>
                     </div>
@@ -3157,16 +3164,75 @@
             setupTabNavigationClickHandlers();
         }
 
+        let krediTabHistory = [];
+
+        function handleKrediInternalBack() {
+            // 1. Açık ödeme modalı varsa kapat
+            const payModal = document.getElementById('modal-payment-logger');
+            if (payModal && payModal.classList.contains('active')) {
+                payModal.classList.remove('active');
+                return;
+            }
+            // 2. Açık karekod çekmecesi varsa kapat
+            const qrDrawer = document.getElementById('qr-install-drawer');
+            if (qrDrawer && qrDrawer.style.display !== 'none') {
+                qrDrawer.style.display = 'none';
+                return;
+            }
+            // 3. Açık takvim gün çekmecesi varsa kapat
+            const calDrawer = document.getElementById('ios-cal-day-drawer');
+            if (calDrawer && calDrawer.classList.contains('open')) {
+                closeIosCalendarDayDrawer();
+                return;
+            }
+            // 4. Önceki sekme geçmişi varsa oraya dön
+            while (krediTabHistory.length > 0) {
+                const prevTab = krediTabHistory.pop();
+                if (prevTab && prevTab !== activeTab) {
+                    const prevBtn = document.querySelector(`#tabs-container .tab-btn[data-tab="${prevTab}"]`);
+                    if (prevBtn) {
+                        prevBtn.setAttribute('data-from-back', '1');
+                        prevBtn.click();
+                        return;
+                    }
+                }
+            }
+            // 5. Ana sekmede değilsek Genel Durum (combined) sekmesine dön
+            if (activeTab !== 'combined') {
+                const homeBtn = document.querySelector('#tabs-container .tab-btn[data-tab="combined"]');
+                if (homeBtn) {
+                    homeBtn.setAttribute('data-from-back', '1');
+                    homeBtn.click();
+                    return;
+                }
+            }
+            // 6. Zaten Genel Durum sekmesindeysek ve D-Pro içindeysek D-Pro Ana Menüye dön
+            if (window.parent && window.parent !== window) {
+                try {
+                    window.parent.postMessage({ type: "DPRO_BACK_TO_MAIN" }, "*");
+                    return;
+                } catch (e) {}
+            }
+        }
+
         // Register Tab Navigation click handlers
         function setupTabNavigationClickHandlers() {
             const btns = document.querySelectorAll('#tabs-container .tab-btn');
             btns.forEach(btn => {
                 btn.addEventListener('click', () => {
+                    const targetTab = btn.getAttribute('data-tab');
+                    const isFromBack = btn.getAttribute('data-from-back') === '1';
+                    btn.removeAttribute('data-from-back');
+
+                    if (!isFromBack && activeTab && activeTab !== targetTab) {
+                        krediTabHistory.push(activeTab);
+                        if (krediTabHistory.length > 25) krediTabHistory.shift();
+                    }
+
                     btns.forEach(b => b.classList.remove('active'));
                     document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
 
                     btn.classList.add('active');
-                    const targetTab = btn.getAttribute('data-tab');
                     activeTab = targetTab;
 
                     // Sync mobile bottom nav active state
@@ -3209,6 +3275,7 @@
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             const allLoans = getAllLoans();
+            const earlyCommRate = parseFloat(document.getElementById('sim-commission-rate')?.value ?? 3.0) || 0.0;
             
             // Total Accumulators
             let totalRemainingDebt = 0.0;
@@ -3279,6 +3346,8 @@
                 }
 
                 const displayName = loan.name || (key === 'is_bankasi' ? 'İş Bankası' : (key === 'ziraat_bankasi' ? 'Ziraat Bankası' : 'Ziraat Otomotiv -2-'));
+                const loanEarlyCommission = loanRemainingPrincipal * (earlyCommRate / 100);
+                const loanEarlyPayoffTotal = loanRemainingPrincipal + loanEarlyCommission;
 
                 // Build Individual Bank Card
                 const cardHtml = `
@@ -3300,11 +3369,22 @@
                                 <span>Kalan Faiz & Vergi:</span>
                                 <span style="font-weight: 600; color: var(--accent-gold);">${formatTRY(loanRemainingAmount - loanRemainingPrincipal)}</span>
                             </div>
+                            <div style="display: flex; justify-content: space-between; color: var(--text-dimmed);">
+                                <span>Erken Kapama Komisyonu (%${earlyCommRate}):</span>
+                                <span style="font-weight: 600; color: #f87171;">+${formatTRY(loanEarlyCommission)}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; padding-top: 6px; border-top: 1px solid rgba(16, 185, 129, 0.28);">
+                                <span style="font-weight: 800; color: #6ee7b7;">Erken Kapatmada Ödenecek Toplam:</span>
+                                <span style="font-weight: 800; font-size: 12.5px; color: #34d399;">${formatTRY(loanEarlyPayoffTotal)}</span>
+                            </div>
                         </div>
                     </div>
                 `;
                 statsGrid.insertAdjacentHTML('beforeend', cardHtml);
             }
+
+            const totalEarlyCommission = totalRemainingPrincipal * (earlyCommRate / 100);
+            const totalEarlyPayoff = totalRemainingPrincipal + totalEarlyCommission;
 
             // Insert Combined summary cards at the top
             const summaryTotalsHtml = `
@@ -3325,6 +3405,14 @@
                         <div style="display: flex; justify-content: space-between; color: var(--text-dimmed);">
                             <span>Kalan Toplam Faiz & Vergi:</span>
                             <span style="font-weight: 600; color: var(--accent-gold);">${formatTRY(totalRemainingDebt - totalRemainingPrincipal)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; color: var(--text-dimmed);">
+                            <span>Erken Kapama Komisyonu (%${earlyCommRate}):</span>
+                            <span style="font-weight: 600; color: #f87171;">+${formatTRY(totalEarlyCommission)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; padding-top: 6px; border-top: 1px solid rgba(16, 185, 129, 0.28);">
+                            <span style="font-weight: 800; color: #6ee7b7;">Erken Kapatmada Ödenecek Toplam:</span>
+                            <span style="font-weight: 800; font-size: 12.5px; color: #34d399;">${formatTRY(totalEarlyPayoff)}</span>
                         </div>
                     </div>
                 </div>
@@ -3984,8 +4072,10 @@
             let loanTotalTax = 0.0;
             let loanTotalPaid = 0.0;
             let loanTotalRemaining = 0.0;
+            let loanRemainingPrincipal = 0.0;
             let loanPaidCount = 0;
             let loanTotalCount = loan.installments.length;
+            const earlyCommRate = parseFloat(document.getElementById('sim-commission-rate')?.value ?? 3.0) || 0.0;
 
             loan.installments.forEach(inst => {
                 const bankState = userState[bankKey] || {};
@@ -4001,9 +4091,12 @@
                     loanPaidCount++;
                 } else {
                     loanTotalRemaining += pData.taksit_tutari;
+                    loanRemainingPrincipal += pData.anapara;
                 }
             });
 
+            const loanEarlyCommission = loanRemainingPrincipal * (earlyCommRate / 100);
+            const loanEarlyPayoffTotal = loanRemainingPrincipal + loanEarlyCommission;
             const loanGrandTotal = loanTotalPrincipal + loanTotalInterest + loanTotalTax;
             const paidPercent = loanGrandTotal > 0 ? ((loanTotalPaid / loanGrandTotal) * 100).toFixed(1) : '0.0';
 
@@ -4058,6 +4151,16 @@
                     </div>
                     <div class="card-value" style="color: #ef4444; font-size: 20px;">${formatTRY(loanTotalRemaining)}</div>
                     <div class="card-subtitle">Kalan Vade: <span>${loanTotalCount - loanPaidCount} Ay</span></div>
+                    <div class="card-detail-row" style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 3px; font-size: 11px;">
+                        <div style="display: flex; justify-content: space-between; color: var(--text-dimmed);">
+                            <span>Kalan Anapara (Kapatma):</span>
+                            <span style="font-weight: 600; color: var(--text-main);">${formatTRY(loanRemainingPrincipal)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2px; padding-top: 4px; border-top: 1px solid rgba(16, 185, 129, 0.25);">
+                            <span style="font-weight: 800; color: #6ee7b7;">Erken Kapatmada Ödenecek Toplam:</span>
+                            <span style="font-weight: 800; color: #34d399;">${formatTRY(loanEarlyPayoffTotal)}</span>
+                        </div>
+                    </div>
                 </div>
             `);
 
@@ -4480,7 +4583,10 @@
             });
 
             taksitSelect.addEventListener('change', runSimulation);
-            commRateInput.addEventListener('input', runSimulation);
+            commRateInput.addEventListener('input', () => {
+                runSimulation();
+                renderDashboard();
+            });
         }
 
         function updateSimulatorDropdown() {
@@ -4541,12 +4647,14 @@
             const interestEl = document.getElementById('sim-res-interest-saved');
             const commEl = document.getElementById('sim-res-commission');
             const netEl = document.getElementById('sim-res-net-savings');
+            const totalPayoffEl = document.getElementById('sim-res-total-payoff');
 
             if (!taksitNo || !bankKey) {
                 principalEl.innerText = formatTRY(0);
                 interestEl.innerText = formatTRY(0);
                 commEl.innerText = formatTRY(0);
                 netEl.innerText = formatTRY(0);
+                if (totalPayoffEl) totalPayoffEl.innerText = formatTRY(0);
                 return;
             }
 
@@ -4567,6 +4675,7 @@
 
             // 3. Early Closure Penalty (Komisyon)
             const commissionAmount = closingPrincipal * (commRate / 100);
+            const totalEarlyPayoffAmount = closingPrincipal + commissionAmount;
 
             // 4. Net Savings
             const netSavings = interestSaved - commissionAmount;
@@ -4574,6 +4683,7 @@
             // Render results
             principalEl.innerText = formatTRY(closingPrincipal);
             interestEl.innerText = formatTRY(interestSaved);
+            if (totalPayoffEl) totalPayoffEl.innerText = formatTRY(totalEarlyPayoffAmount);
             
             if (commRate > 0) {
                 document.getElementById('sim-res-commission-row').style.display = 'flex';
