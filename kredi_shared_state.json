@@ -176,6 +176,12 @@
         "payment_date": "2026-05-15",
         "source": "Otomatik (Planlanan)",
         "notes": "Ödemesiz dönem faiz taksit ödemesi."
+      },
+      "6": {
+        "is_paid": true,
+        "payment_date": "2026-10-18",
+        "source": "Merkez Kasa",
+        "notes": ""
       }
     },
     "ziraat_otomotiv_2": {
@@ -189,5 +195,5 @@
     "vakifbank_otomotiv": {}
   },
   "customLoans": {},
-  "lastUpdated": "2026-10-18T21:58:57.976Z"
+  "lastUpdated": "2026-10-18T21:59:06.780Z"
 }
