@@ -114,36 +114,6 @@
         "payment_date": "2026-04-27",
         "source": "Otomatik (Planlanan)",
         "notes": "Sistem başlangıcı öncesi yapılan ödeme."
-      },
-      "20": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      },
-      "21": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      },
-      "22": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      },
-      "23": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      },
-      "24": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
       }
     },
     "ziraat_bankasi": {
@@ -176,36 +146,6 @@
         "payment_date": "2026-05-15",
         "source": "Otomatik (Planlanan)",
         "notes": "Ödemesiz dönem faiz taksit ödemesi."
-      },
-      "6": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      },
-      "7": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      },
-      "8": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      },
-      "9": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      },
-      "10": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
       }
     },
     "ziraat_otomotiv_2": {
@@ -214,41 +154,10 @@
         "payment_date": "2026-05-20",
         "source": "Otomatik (Planlanan)",
         "notes": "Sistem başlangıcı öncesi ödeme."
-      },
-      "2": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      },
-      "3": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      },
-      "4": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      },
-      "5": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
       }
     },
-    "vakifbank_otomotiv": {
-      "1": {
-        "is_paid": true,
-        "payment_date": "2026-10-18",
-        "source": "Merkez Kasa",
-        "notes": ""
-      }
-    }
+    "vakifbank_otomotiv": {}
   },
   "customLoans": {},
-  "lastUpdated": "2026-10-18T22:00:10.996Z"
+  "lastUpdated": "2026-10-19T23:41:20.605Z"
 }
