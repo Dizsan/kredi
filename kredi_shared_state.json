@@ -214,10 +214,16 @@
         "payment_date": "2026-05-20",
         "source": "Otomatik (Planlanan)",
         "notes": "Sistem başlangıcı öncesi ödeme."
+      },
+      "2": {
+        "is_paid": true,
+        "payment_date": "2026-10-20",
+        "source": "Merkez Kasa",
+        "notes": ""
       }
     },
     "vakifbank_otomotiv": {}
   },
   "customLoans": {},
-  "lastUpdated": "2026-10-20T10:22:25.709Z"
+  "lastUpdated": "2026-10-20T10:22:36.302Z"
 }
