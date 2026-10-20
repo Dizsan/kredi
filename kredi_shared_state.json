@@ -238,10 +238,16 @@
         "payment_date": "2026-10-20",
         "source": "Merkez Kasa",
         "notes": ""
+      },
+      "6": {
+        "is_paid": true,
+        "payment_date": "2026-10-20",
+        "source": "Merkez Kasa",
+        "notes": ""
       }
     },
     "vakifbank_otomotiv": {}
   },
   "customLoans": {},
-  "lastUpdated": "2026-10-20T10:22:42.305Z"
+  "lastUpdated": "2026-10-20T10:22:44.509Z"
 }
