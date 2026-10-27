@@ -144,6 +144,12 @@
         "payment_date": "2026-10-20",
         "source": "Merkez Kasa",
         "notes": ""
+      },
+      "25": {
+        "is_paid": true,
+        "payment_date": "2026-10-27",
+        "source": "Merkez Kasa",
+        "notes": ""
       }
     },
     "ziraat_bankasi": {
@@ -262,5 +268,5 @@
     }
   },
   "customLoans": {},
-  "lastUpdated": "2026-10-21T12:06:25.533Z"
+  "lastUpdated": "2026-10-27T11:03:58.603Z"
 }
