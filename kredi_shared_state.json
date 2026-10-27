@@ -149,7 +149,7 @@
         "is_paid": true,
         "payment_date": "2026-10-27",
         "source": "Merkez Kasa",
-        "notes": ""
+        "notes": "Ömer Eren Ziraat Şahsiden 80.000 TL\nAlaaddin Ala Cari İş Otoya Gelen 30.000 TL\nOto ziraatten İş Otoya giden 159.500 TL\nYapı Kredi Oto dan İş Otoya Giden 19.000 TL\nKm Solar Ziraatten Otoya 69.500 TL \nToplam 358.000 TL Kredi Ödendi"
       }
     },
     "ziraat_bankasi": {
@@ -268,5 +268,5 @@
     }
   },
   "customLoans": {},
-  "lastUpdated": "2026-10-27T11:03:58.603Z"
+  "lastUpdated": "2026-10-27T11:07:24.903Z"
 }
